@@ -7,23 +7,21 @@ output:
     transition: slide
 ---
 
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
 
 # Welcome
 
 ## About me
 
-Yamoussoukro based fullstack ;) Chercheur, Conférencier, Animateur Culturel, R user.
+Yamoussoukro, Chercheur, Conférencier, Animateur Culturel, R user.
 
-Twitter: [@ehoumanevans](https://twitter.com/ehoumanevans)
+Twitter [@ehoumanevans](https://twitter.com/ehoumanevans)
 
-My Biodata sur [Netlify](https://ehoumanevans.netlify.app)
+Ma Biodata sur [@Netlify](https://ehoumanevans.netlify.app)
 
-[LinkedIn](https://www.linkedin.com/in/ehoumanevans)
+[@LinkedIn](https://www.linkedin.com/in/ehoumanevans)
 
 ## Recherche
 
@@ -53,10 +51,14 @@ sessionInfo()
 # Bibliographie
 
  - Mike Croucher, Laura Graham, Tamora James, Anna Krystalli & François Michonneau (2017). Guide to Better Science: Reproductible code. _British Ecological Society_. Natural History Museum, and Durham University, UK,  41 p.
- - Christophe Lalanne & Bruno Falissard (2018).Le langage R Markdown. https://lms.fun-mooc.fr/c4x/UPSUD/42001S02/asset/RMarkdown.html. 07/05/22.
+ 
+ - Christophe Lalanne & Bruno Falissard (2018). Le langage R Markdown. https://lms.fun-mooc.fr/c4x/UPSUD/42001S02/asset/RMarkdown.html. 07/05/22.
+ 
  - Christopher Gandrud (2020). Reproducible Research with R and RStudio (Third Edition).Chapman and Hall/CRC, London, UK 298 Pages
 
-# _Reproductibility Research ?_ Recherche reproductible
+# _Reproductibility Research?_ Recherche reproductible ?
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/reproduc_img.jpg" width="1280" height="572" /> </center> 
 
 ## Introduction
 
@@ -70,11 +72,9 @@ Barba, L. A. (2018). Terminologies for reproducible research. arXiv preprint arX
 
 ## Idée maitresse
 
- - Avoir un plan pour organiser, stocker et rendre les données disponibles ; 
+ - Avoir un plan pour organiser, stocker et rendre les données et les codes d'analyse disponibles ; 
  - Transparence dans la production des résultats (LancetGate) ; 
- - Revenir plustard et facilement réaliser ses analyses ;
-
-Have a plan to organise, store, & make your files available
+ - Revenir plustard et facilement réaliser ses analyses.
 
 ## L'origine de l'analyse reproductible
 
@@ -90,11 +90,7 @@ Have a plan to organise, store, & make your files available
 
 <center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/meta_data_view.png" width="1280" height="572" /> </center> 
 
-## Résultats + Données + Code
-
-<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/code_view.png" width="1280" height="572" /> </center> 
-
-##  Resultats + Données + Meta Data + Code
+##  Resultats + Données + Meta Data
 
 ```{r }
 # Jeu de donnée
@@ -103,6 +99,10 @@ library(dplyr)
 
 glimpse(data_plot_inprobois)
 ```
+
+## Résultats + Données + Code
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/code_view.png" width="1280" height="572" /> </center> 
 
 ##  Resultats + Données + Meta Data + Code
 
@@ -136,14 +136,13 @@ alluvial(forest %>% select(-n),
          axis_labels = c("Forest", "Association", "Number_species"))
 ```
 
-
 # Strucuture d'un projet R (.Rproj)
 
 ## Le problème
 
 <center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagebad.png" width="1000"/> </center> 
 
-## le Bon projet R
+## le bon projet R
 
 <center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagegood2.png" width="1000"/> </center> 
 
@@ -156,11 +155,10 @@ alluvial(forest %>% select(-n),
 <center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/myfolder.png" width="1000"/> </center> 
 
 
-## Mise en place manuelle
+## Constituer un dossier projet manuellement
 
-git remote add origin https://github.com/EhoumanEvans/repro_research_aru.git
 
-## Mise en place automatique
+## Constituer un dossier projet automatiquement
 
 ```{r}
 # install.packages("prodigenr")
@@ -189,10 +187,19 @@ library(prodigenr)
 
 ```{r}
 HepatitisCdata <- read.csv("../data/HepatitisCdata.csv")
+
+library(dplyr)
+glimpse(HepatitisCdata)
+View(HepatitisCdata)
+unique(HepatitisCdata$Category)
+
 ```
 
-la moyenne d'âge varie d'une catégorie à une autre ?
-  
+La moyenne d'âge varie d'une catégorie à une autre ?
+
+## Jeu de données de HepatitisCdata.csv : Test de normalité
+
+
 ```{r}
 shapiro.test(HepatitisCdata$ALP)
 ```
@@ -207,6 +214,19 @@ wilcox_pval<- wilcox_res$p.value
 
 Nous sommes partie de l'hypothèse H0 que la valeur en albumine est la même dans les deux catégorie (M, F). Puisque `r wilcox_pval` <0.05, nous rejetons l'hypothèse H0 pour accepter l'hypothèse alternative. Conclusion, la valeur médiane d'albumine de l'homme est significativement différente à celle de la femme.
 
+## jeu de données: variables Bil
+
+
+```{r}
+# https://statsandr.com/blog/wilcoxon-test-in-r-how-to-compare-2-groups-under-the-non-normality-assumption/
+wilcox_res_bil <- wilcox.test(HepatitisCdata$BIL ~ HepatitisCdata$Sex) 
+wilcox_bil_pval<- wilcox_res$p.value
+```
+
+Nous sommes partie de l'hypothèse H0 que la valeur en albumine est la même dans les deux catégorie (M, F). Puisque `r wilcox_bil_pval` < 0.05, nous rejetons l'hypothèse H0 pour accepter l'hypothèse alternative. Conclusion, la valeur médiane d'albumine de l'homme est significativement différente à celle de la femme.
+
+
+## Jeu de données de HepatitisCdata.csv : Médianes (ALB)
 
 ```{r}
 library(dplyr)
@@ -214,7 +234,7 @@ group_res <-group_by(HepatitisCdata, Sex) %>%
             summarise(count = n(),
             median = median(ALB, na.rm = TRUE),
             mean = mean(ALB, na.rm = TRUE))
-             
+group_res           
 ```
 
 Il est possible d'afficher des valeur spécifiques dans le texte
@@ -228,6 +248,8 @@ La valeur moyenne chez la femme est de `r mean_alb_f` et chez l'homme ?
 
 Que dire de la variable Categorie et le taux d'ALB
 
+## Jeu de données de HepatitisCdata.csv : comparaison de médianes (ALB)
+
 ```{r}
 kruskal.test(ALB~ Category, data = HepatitisCdata)
   # https://www.bmj.com/content/348/bmj.g2907
@@ -236,6 +258,8 @@ kruskal.test(ALB~ Category, data = HepatitisCdata)
 ```
 
 Nous pouvons donc procéder à une post-hoc de 1001 manières après avoir déterminer la médiane dans de chaque catégorie.
+
+## Jeu de données de HepatitisCdata.csv : visulaisation des gorupes (ALB)
 
 ```{r}
 # Retirer la valeur na
@@ -248,8 +272,10 @@ group_cat_sum <-group_by(HepatitisCdata, Category) %>%
             summarise(count = n(),
             median = median(ALB, na.rm = TRUE),
             mean = mean(ALB, na.rm = TRUE))
-
+group_cat_sum
 ```
+
+## Jeu de données de HepatitisCdata.csv : test post-hoc (ALB)
 
 Tests post-hoc
 
@@ -262,45 +288,54 @@ HepatitisCdata$Category= factor(HepatitisCdata$Category,
 
 levels(HepatitisCdata$Category)
 
-### Dunn test
+```
 
+## Réalisation du test de Dunn
+
+```{r}
 library(FSA)
 
 DT = dunnTest(ALB ~ Category,
               data=HepatitisCdata,
               method="bh")
+```
 
-### Compact letter display
+
+## Compact letter display
+
+Affecter des lettres aux groupes
+
+```{r}
 
 PT = DT$res
-
 PT
+```
 
+```{r}
 library(rcompanion)
 
 cldList(P.adj ~ Comparison,
         data = PT,
         threshold = 0.05)
-
 ```
 
-Autres méthodes
+## Jeu de données de HepatitisCdata.csv : test post-hoc (ALB) :Autres méthodes
 
-```{r}
+```{r echo=FALSE}
 
-pairwise.wilcox.test(HepatitisCdata$ALB, g = HepatitisCdata$Category, correct=TRUE)
+pwilcx <- pairwise.wilcox.test(HepatitisCdata$ALB, g = HepatitisCdata$Category, correct=TRUE)
 
 
 library(FSA)
-dunnTest(ALB~Category,data=HepatitisCdata)
+duntT <- dunnTest(ALB~Category,data=HepatitisCdata)
 
 library(PMCMR)
 # HepatitisCdata$Category<- as.factor(HepatitisCdata$Category)
-PMCMRplus::kwAllPairsNemenyiTest(x=HepatitisCdata$ALB, g=HepatitisCdata$Category, method="Tukey")
+pmcmrcpls <- PMCMRplus::kwAllPairsNemenyiTest(x=HepatitisCdata$ALB, g=HepatitisCdata$Category, method="Tukey")
 
 
 library(pgirmess)
-kruskalmc(HepatitisCdata$ALB ~ HepatitisCdata$Category)
+kkwmc <- kruskalmc(HepatitisCdata$ALB ~ HepatitisCdata$Category)
 ```
 
 ## Jeu de données Chernobyl NPP Accident
@@ -311,14 +346,14 @@ Description d'un jeu de données d'une analyse d'échantillon de sol prélévé 
 Chernobyl_npp_soil  <- read.csv("../data/Soil_radionuclide_data.csv")
 ```
 
-Explorer le jeu de données
+## Jeu de données Chernobyl NPP Accident : Explorer le jeu de données
 
 ```{r}
 library(dplyr)
 glimpse(Chernobyl_npp_soil)
 ```
 
-Comparer des paramètres selon le site
+## Comparer des paramètres selon le site
 
 ```{r}
 # Retirer les valeur n/a
@@ -341,6 +376,8 @@ kruskal.test(Dose_rate_microSv_per_hour_measurement_1 ~ Site, data = Chernobyl_n
 ```
 
 As the p-value is less than the significance level 0.05, we can conclude that there are significant differences between the treatment groups.
+
+## Comparer des paramètres selon le site :  Suite du test post-hoc
 
 L'analyse peut se poursuivre avec un test post-hoc 
 

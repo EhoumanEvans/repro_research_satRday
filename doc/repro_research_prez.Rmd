@@ -160,7 +160,7 @@ alluvial(forest %>% select(-n),
 
 ## Mise en place manuelle
 
-
+git remote add origin https://github.com/EhoumanEvans/repro_research_aru.git
 
 ## Mise en place automatique
 

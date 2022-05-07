@@ -1,0 +1,378 @@
+---
+title: "Reproductory Research with R"
+author: "Ehouman Evans <br> CIRAD"
+date: " Samedi 07 mai 2022"
+output: 
+  revealjs::revealjs_presentation:
+    transition: slide
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+
+# Welcome
+
+## About me
+
+Yamoussoukro based fullstack ;) Chercheur, Conférencier, Animateur Culturel, R user.
+
+Twitter: [@ehoumanevans](https://twitter.com/ehoumanevans)
+
+My Biodata sur [Netlify](https://ehoumanevans.netlify.app)
+
+[LinkedIn](https://www.linkedin.com/in/ehoumanevans)
+
+
+## Recherche
+
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/research.png" width="1000" /> </center> 
+
+## On s'ammuse un peu
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/fun.png" width="1000"/> </center> 
+
+## Notre environnement de travail
+
+```{r}
+sessionInfo()
+```
+
+
+# Content
+
+ - Reproductibility Research ?
+ - Idée maîtresse
+ - Strucuture d'un projet R (.Rproj)
+ - Le markdown
+ - Live coding, tidyverse and ethnobotanyR
+ - Version Control
+ - Stockage les données.
+
+# Bibliographie
+ - Mike Croucher, Laura Graham, Tamora James, Anna Krystalli & François Michonneau (2017). Guide to Better Science: Reproductible code. _British Ecological Society_. Natural History Museum, and Durham University, UK,  41 p.
+ - Christophe Lalanne & Bruno Falissard (2018).Le langage R Markdown. https://lms.fun-mooc.fr/c4x/UPSUD/42001S02/asset/RMarkdown.html. 07/05/22.
+ - Christopher Gandrud (2020). Reproducible Research with R and RStudio (Third Edition).Chapman and Hall/CRC, London, UK 298 Pages
+
+# _Reproductibility Research ?_ Recherche reproductible
+
+## Introduction
+
+Recherche reproductible : Les auteurs fournissent les données et le code nécessaire pour rejouer les analyses et recréer les résultats numériques.
+
+Replication : Une étude arrive aux même résultats scientifiques en collectant de nouvelles données (éventuellement avec des méthodes différentes) et en réalisant une nouvelle analyse.
+
+Attention, d’autres auteurs et institutions inversent ces définitons, les utilisent de manière indifférenciée ou rajoute le concept de répétabilité.
+
+Barba, L. A. (2018). Terminologies for reproducible research. arXiv preprint arXiv:1802.03311.
+
+## Idée maitresse
+
+ - Avoir un plan pour organiser, stocker et rendre les données disponibles ; 
+ - Transparence dans la production des résultats (LancetGate) ; 
+ - Revenir plustard et facilement réaliser ses analyses ;
+
+Have a plan to organise, store, & make your files available
+
+## L'origine de l'analyse reproductible
+
+## Resultats : Figure ou analyse
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/mixed_forest_compositions_fta.png" width="1280" height="572" /> </center> 
+
+## Resultats + Données
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/data_view.png" width="1280" height="572" /> </center> 
+
+## Résultats + Données + Meta Données
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/meta_data_view.png" width="1280" height="572" /> </center> 
+
+## Résultats + Données + Code
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/code_view.png" width="1280" height="572" /> </center> 
+
+##  Resultats + Données + Meta Data + Code
+
+```{r }
+# Jeu de donnée
+data_plot_inprobois <- readRDS("../data/data_plot_inprobois.rds")
+library(dplyr)
+
+glimpse(data_plot_inprobois)
+```
+
+##  Resultats + Données + Meta Data + Code
+
+```{r }
+# Viuslisation
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(alluvial)
+library(ggalluvial)
+top_numb_spec <- data_plot_inprobois %>% 
+  count(no_species) %>% 
+  pull(no_species)
+
+top_association <- data_plot_inprobois %>% 
+  filter(no_species %in% top_numb_spec) %>% 
+  count(association) %>% 
+  pull(association)
+
+forest <- data_plot_inprobois %>% 
+  filter(no_species %in% top_numb_spec & association %in% top_association) %>% 
+  count(name_forest, association, no_species) %>% 
+  mutate(name_forest = fct_relevel(as.factor(name_forest), c("BESSO", "SAP LAME")))
+
+alluvial(forest %>% select(-n),
+         freq=forest$n, border=NA, alpha = 0.5,
+         col=case_when(forest$name_forest == "BESSO" ~ "red",
+                       forest$name_forest == "SAP LAME" ~ "blue",
+                       TRUE ~ "orange"),
+         cex=0.75,
+         axis_labels = c("Forest", "Association", "Number_species"))
+```
+
+
+# Strucuture d'un projet R (.Rproj)
+
+## Le problème
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagebad.png" width="1000"/> </center> 
+
+## le Bon projet R
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagegood2.png" width="1000"/> </center> 
+
+## Manage a RStudio Project Folder
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagegood3.png" width="1000"/> </center> 
+
+## Made by saven85
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/myfolder.png" width="1000"/> </center> 
+
+
+## Mise en place manuelle
+
+
+
+## Mise en place automatique
+
+```{r}
+# install.packages("prodigenr")
+library(prodigenr)
+
+# https://cran.r-project.org/web/packages/prodigenr/vignettes/prodigenr.html
+
+```
+
+# Le Markdown Rmarkdown
+
+## Petite idée ...
+
+*Markdown* est un langage de balisage léger créé en 2004 par John Gruber avec l'aide d'_Aaron Swartz_. Il a été créé dans le but d'offrir une syntaxe facile à lire et à écrire.
+
+*R Markdown* offre une syntaxe simplifiée pour mettre en forme des documents contenant à la fois du texte, des instructions R et le résultat fourni par R lors de l’évaluation de ces instructions. En ce sens, il s’agit d’un outil permettant de produire des rapports d’analyse détaillés et commentés, plutôt que de simples scripts R incluant quelques commentaires.
+
+
+## Rapport sans analyse
+
+- Une étude sur la mise en place d'une clé dichotomique à partie d'un jeu de données d'inventaires floristique réalisée dans la forêt classée de la Téné (Oumé, Côte d'Ivoire).
+
+- Evaluation FTA sur les plantations en mélagne.
+
+## Jeu de données de HepatitisCdata.csv
+
+```{r}
+HepatitisCdata <- read.csv("../data/HepatitisCdata.csv")
+```
+
+la moyenne d'âge varie d'une catégorie à une autre ?
+  
+```{r}
+shapiro.test(HepatitisCdata$ALP)
+```
+
+Nous pouvons à présent procéder à la comparaison des groupes.
+
+```{r}
+# https://statsandr.com/blog/wilcoxon-test-in-r-how-to-compare-2-groups-under-the-non-normality-assumption/
+wilcox_res <- wilcox.test(HepatitisCdata$ALB ~ HepatitisCdata$Sex) 
+wilcox_pval<- wilcox_res$p.value
+```
+
+Nous sommes partie de l'hypothèse H0 que la valeur en albumine est la même dans les deux catégorie (M, F). Puisque `r wilcox_pval` <0.05, nous rejetons l'hypothèse H0 pour accepter l'hypothèse alternative. Conclusion, la valeur médiane d'albumine de l'homme est significativement différente à celle de la femme.
+
+
+```{r}
+library(dplyr)
+group_res <-group_by(HepatitisCdata, Sex) %>%
+            summarise(count = n(),
+            median = median(ALB, na.rm = TRUE),
+            mean = mean(ALB, na.rm = TRUE))
+             
+```
+
+Il est possible d'afficher des valeur spécifiques dans le texte
+
+```{r}
+HepatitisCdata_f<-filter(HepatitisCdata, Sex == "f")
+mean_alb_f<-mean(HepatitisCdata_f$ALB)
+```
+
+La valeur moyenne chez la femme est de `r mean_alb_f` et chez l'homme ?
+
+Que dire de la variable Categorie et le taux d'ALB
+
+```{r}
+kruskal.test(ALB~ Category, data = HepatitisCdata)
+  # https://www.bmj.com/content/348/bmj.g2907
+  # https://statsandr.com/blog/student-s-t-test-in-r-and-by-hand-how-to-compare-two-groups-under-different-scenarios/
+
+```
+
+Nous pouvons donc procéder à une post-hoc de 1001 manières après avoir déterminer la médiane dans de chaque catégorie.
+
+```{r}
+# Retirer la valeur na
+HepatitisCdata<-HepatitisCdata %>%
+            filter(ALB != "NA")
+
+# Observer les medianne par groupe
+
+group_cat_sum <-group_by(HepatitisCdata, Category) %>%
+            summarise(count = n(),
+            median = median(ALB, na.rm = TRUE),
+            mean = mean(ALB, na.rm = TRUE))
+
+```
+
+Tests post-hoc
+
+```{r}
+
+### Order groups by median
+
+HepatitisCdata$Category= factor(HepatitisCdata$Category, 
+                      levels=c("1=Hepatitis", "0=Blood Donor", "2=Fibrosis", "3=Cirrhosis", "0s=suspect Blood Donor"))
+
+levels(HepatitisCdata$Category)
+
+### Dunn test
+
+library(FSA)
+
+DT = dunnTest(ALB ~ Category,
+              data=HepatitisCdata,
+              method="bh")
+
+### Compact letter display
+
+PT = DT$res
+
+PT
+
+library(rcompanion)
+
+cldList(P.adj ~ Comparison,
+        data = PT,
+        threshold = 0.05)
+
+```
+
+Autres méthodes
+
+```{r}
+
+pairwise.wilcox.test(HepatitisCdata$ALB, g = HepatitisCdata$Category, correct=TRUE)
+
+
+library(FSA)
+dunnTest(ALB~Category,data=HepatitisCdata)
+
+library(PMCMR)
+# HepatitisCdata$Category<- as.factor(HepatitisCdata$Category)
+PMCMRplus::kwAllPairsNemenyiTest(x=HepatitisCdata$ALB, g=HepatitisCdata$Category, method="Tukey")
+
+
+library(pgirmess)
+kruskalmc(HepatitisCdata$ALB ~ HepatitisCdata$Category)
+```
+
+## Jeu de données Chernobyl NPP Accident
+
+Description d'un jeu de données d'une analyse d'échantillon de sol prélévé à Chernobyle
+
+```{r}
+Chernobyl_npp_soil  <- read.csv("../data/Soil_radionuclide_data.csv")
+```
+
+Explorer le jeu de données
+
+```{r}
+library(dplyr)
+glimpse(Chernobyl_npp_soil)
+```
+
+Comparer des paramètres selon le site
+
+```{r}
+# Retirer les valeur n/a
+Chernobyl_npp_soil<-Chernobyl_npp_soil %>%
+            filter(Dose_rate_microSv_per_hour_measurement_1 != "n/a")
+
+# Convertir en valeur numérique
+Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1<-as.numeric(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1) 
+
+# Réaliser le test de normalité shapiro
+shapiro.test(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1)
+
+
+# Test de comparaison pour plus de deux groupes
+
+kruskal.test(Dose_rate_microSv_per_hour_measurement_1 ~ Site, data = Chernobyl_npp_soil)
+  # https://www.bmj.com/content/348/bmj.g2907
+  # https://statsandr.com/blog/student-s-t-test-in-r-and-by-hand-how-to-compare-two-groups-under-different-scenarios/
+
+```
+
+As the p-value is less than the significance level 0.05, we can conclude that there are significant differences between the treatment groups.
+
+L'analyse peut se poursuivre avec un test post-hoc 
+
+```{r}
+pairwise.wilcox.test(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1, g = Chernobyl_npp_soil$Site)
+
+```
+
+
+
+```{r}
+pairwise.wilcox.test(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1, g = Chernobyl_npp_soil$Site)
+
+```
+
+
+# Version Control
+
+## Git avec RStudio
+
+## Git avec Github Desktop
+
+
+# Stockage les données
+
+[Kaggle](http://Kaggle.com)
+
+[zenedo](http://zenedo.com)
+
+[Havarddataverse](http://verse.harvard.edu)
+
+
+# Merci !

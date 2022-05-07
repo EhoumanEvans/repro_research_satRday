@@ -25,9 +25,7 @@ My Biodata sur [Netlify](https://ehoumanevans.netlify.app)
 
 [LinkedIn](https://www.linkedin.com/in/ehoumanevans)
 
-
 ## Recherche
-
 
 <center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/research.png" width="1000" /> </center> 
 
@@ -53,6 +51,7 @@ sessionInfo()
  - Stockage les données.
 
 # Bibliographie
+
  - Mike Croucher, Laura Graham, Tamora James, Anna Krystalli & François Michonneau (2017). Guide to Better Science: Reproductible code. _British Ecological Society_. Natural History Museum, and Durham University, UK,  41 p.
  - Christophe Lalanne & Bruno Falissard (2018).Le langage R Markdown. https://lms.fun-mooc.fr/c4x/UPSUD/42001S02/asset/RMarkdown.html. 07/05/22.
  - Christopher Gandrud (2020). Reproducible Research with R and RStudio (Third Edition).Chapman and Hall/CRC, London, UK 298 Pages
@@ -364,7 +363,6 @@ pairwise.wilcox.test(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1
 
 ## Git avec Github Desktop
 
-
 # Stockage les données
 
 [Kaggle](http://Kaggle.com)
@@ -372,6 +370,5 @@ pairwise.wilcox.test(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1
 [zenedo](http://zenedo.com)
 
 [Havarddataverse](http://verse.harvard.edu)
-
 
 # Merci !

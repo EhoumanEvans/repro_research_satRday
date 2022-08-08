@@ -66,5 +66,4 @@ alluvial(forest %>% select(-n),
          cex=0.75,
          axis_labels = c("Forest", "Association", "Number_species"))  
 ```
-
-![](/repro_research_satRday/image/alluvial_graph.png)
+<img src="image/alluvial_graph.png" width="128"/>

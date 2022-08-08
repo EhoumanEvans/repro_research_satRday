@@ -68,3 +68,4 @@ alluvial(forest %>% select(-n),
 ```
 
 ![](repro_research_satRday/image/alluvial_graph.png)
+![Screenshot](alluvial_graph.png)

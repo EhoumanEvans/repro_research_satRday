@@ -45,7 +45,6 @@ Ma Biodata sur [@Netlify](https://ehoumanevans.netlify.app)
 <center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/fun.png" width="1000"/> </center> 
 
 
-
 # Plan
 
  - Reproductibility Research ?
@@ -77,7 +76,6 @@ Ma Biodata sur [@Netlify](https://ehoumanevans.netlify.app)
 Recherche reproductible : Les auteurs fournissent les données et le code nécessaire pour rejouer les analyses et recréer les résultats numériques.
 
 Replication : Une étude arrive aux mêmes résultats scientifiques en collectant de nouvelles données (éventuellement avec des méthodes différentes) et en réalisant une nouvelle analyse pour répondre à la même question de recherche.
-
 
 ## Définition 2
 
@@ -232,7 +230,6 @@ La moyenne d'âge varie t-elle d'une catégorie à une autre ?
 
 ### Test de normalité variable ALB
 
-
 ```{r}
 shapiro.test(HepatitisCdata$ALB)
 ```
@@ -249,7 +246,6 @@ wilcox_pval<- wilcox_res$p.value
 
 Nous sommes partie de l'hypothèse H0 que la valeur en albumine est la même dans les deux catégorie (M, F). Puisque `r wilcox_pval` <0.05, nous rejetons l'hypothèse H0 pour accepter l'hypothèse alternative. Conclusion, la valeur médiane d'albumine de l'homme est significativement différente à celle de la femme.
 
-
 ## Jeu de données de HepatitisCdata.csv : Médianes (ALB)
 
 ```{r}
@@ -260,7 +256,6 @@ group_res <-group_by(HepatitisCdata, Sex) %>%
             mean = mean(ALB, na.rm = TRUE))
 group_res           
 ```
-
 
 
 ```{r}
@@ -319,7 +314,6 @@ DT = dunnTest(ALB ~ Category,
               method="bh")
 ```
 
-
 ## Compact letter display
 
 Affecter des lettres aux groupes
@@ -363,8 +357,6 @@ wilcox_bil_pval<- wilcox_res$p.value
 ```
 
 Nous sommes partie de l'hypothèse H0 que la valeur en albumine est la même dans les deux catégorie (M, F). Puisque `r wilcox_bil_pval` < 0.05, nous rejetons l'hypothèse H0 pour accepter l'hypothèse alternative. Conclusion, la valeur médiane d'albumine de l'homme est significativement différente à celle de la femme.
-
-
 
 ## Jeu de données Chernobyl NPP Accident
 
@@ -410,8 +402,6 @@ kruskal.test(Dose_rate_microSv_per_hour_measurement_1 ~ Site, data = Chernobyl_n
 ```
 
 Puisque la p-value est plus petite que la valeur seuil de 0.05, on peut en conclure qu'il y a une différence significative entre les groupes, les sites.
-
-
 
 # Version Control
 

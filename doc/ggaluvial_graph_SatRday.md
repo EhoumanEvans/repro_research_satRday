@@ -67,4 +67,4 @@ alluvial(forest %>% select(-n),
          axis_labels = c("Forest", "Association", "Number_species"))  
 ```
 
-![](ggaluvial_graph_SatRday_files/figure-gfm/unnamed-chunk-2-1.jpeg)<!-- -->
+![](image/alluvial_graph.png)<!-- -->

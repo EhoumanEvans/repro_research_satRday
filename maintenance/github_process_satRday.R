@@ -4,8 +4,8 @@ usethis::git_sitrep()
 usethis::git_vaccinate()
 # Set your configuration
 usethis::use_git_config(
-  user.name = "EhoumanEvans",
-  user.email = "ehoumanevans@gmail.com")
+  user.name = "Your Name",
+  user.email = "you@example.com")
 
 
 # Activer Git pour son projet

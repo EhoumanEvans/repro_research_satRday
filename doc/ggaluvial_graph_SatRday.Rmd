@@ -1,0 +1,63 @@
+---
+title: "ggaluvial_graph_SatRdays"
+author: "Evans, E."
+date: "23/07/2022"
+output:
+  github_document:
+    fig_width: 5
+    fig_height: 5
+    dev: jpeg
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Charger les données
+
+```{r }
+data_ass<- readRDS(file = "../data/forest_ass.rds")
+View(data_ass)
+
+
+```
+
+Visualiser le graphique
+
+
+```{r }
+# Charger le jeu de données
+
+data_ass<- readRDS(file = "../data/forest_ass.rds")
+
+# Visuliser le graphique
+
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(alluvial)
+library(ggalluvial)
+
+top_numb_spec <- data_ass %>% 
+  count(no_species) %>% 
+  pull(no_species)
+
+top_association <- data_ass %>% 
+  filter(no_species %in% top_numb_spec) %>% 
+  count(association) %>% 
+  pull(association)
+
+forest <- data_ass %>% 
+  filter(no_species %in% top_numb_spec & association %in% top_association) %>% 
+  count(name_forest, association, no_species) %>% 
+  mutate(name_forest = fct_relevel(as.factor(name_forest), c("Watanga", "Crypton")))
+
+alluvial(forest %>% select(-n),
+         freq=forest$n, border=NA, alpha = 0.5,
+         col=case_when(forest$name_forest == "Watanga" ~ "red",
+                       forest$name_forest == "Crypton" ~ "blue",
+                       TRUE ~ "orange"),
+         cex=0.75,
+         axis_labels = c("Forest", "Association", "Number_species"))  
+```
+

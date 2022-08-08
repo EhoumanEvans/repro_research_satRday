@@ -1,0 +1,435 @@
+---
+title: "Recherche Reproductible avec R"
+author: "Ehouman Evans <br> Abidjan RUsers, Yamoussoukro"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+output:
+  word_document: default
+  toc: yes
+  html_document:
+    df_print: paged
+    code_folding: "hide"
+subtitle: 'Introduction Générale'
+pdf_document:
+  toc: yes
+always_allow_html: yes
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+knitr::opts_chunk$set(echo = FALSE, message = FALSE)
+knitr::opts_chunk$set(fig.width=7, fig.height=6)
+knitr::opts_chunk$set(echo=FALSE)
+```
+
+\newpage
+
+# Welcome
+
+## Moi !
+
+CIV, Yamoussoukro, Chercheur, Gestionnaire de Projets, Conférencier, Animateur Culturel, R User.
+
+Twitter [@ehoumanevans](https://twitter.com/ehoumanevans)
+
+Ma Biodata sur [@Netlify](https://ehoumanevans.netlify.app)
+
+[@LinkedIn](https://www.linkedin.com/in/ehoumanevans)
+
+## Recherche
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/research.png" width="1000" /> </center> 
+
+## On s'ammuse un peu ...
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/fun.png" width="1000"/> </center> 
+
+
+
+# Plan
+
+ - Reproductibility Research ?
+ - Idée maîtresse
+ - Strucuture d'un projet R (.Rproj)
+ - Le markdown
+ - Live coding : analyses statistiques
+ - Version Control
+ - Outils en ligne : Stockage et analyses de données
+
+
+# Bibliographie 
+
+## Bibliographie 1
+
+  - Mike Croucher, Laura Graham, Tamora James, Anna Krystalli & François Michonneau (2017). Guide to Better Science: Reproductible code. _British Ecological Society_. Natural History Museum, and Durham University, UK,  41 p.
+  - Christophe Lalanne & Bruno Falissard (2018). Le langage R Markdown. https://lms.fun-mooc.fr/c4x/UPSUD/42001S02/asset/RMarkdown.html. 07/05/22.
+  - Barba, L. A. (2018). Terminologies for reproducible research. arXiv preprint arXiv:1802.03311.
+
+## Bibliographie 2
+
+  - Christopher Gandrud (2020). Reproducible Research with R and RStudio (Third Edition).Chapman and Hall/CRC, London, UK 298 Pages.
+  - Jean-Marie DE KETELE & Xavier ROEGIERS (2015).  Méthodologie du recueil d'informations : Formation des méthodes d'observation, de questionnaire, d'interview et d'étude de documents, 5ème édition, deBoeck Supérieur, 208 pages.
+
+# Introduction 
+
+## Définition 1
+
+Recherche reproductible : Les auteurs fournissent les données et le code nécessaire pour rejouer les analyses et recréer les résultats numériques.
+
+Replication : Une étude arrive aux mêmes résultats scientifiques en collectant de nouvelles données (éventuellement avec des méthodes différentes) et en réalisant une nouvelle analyse pour répondre à la même question de recherche.
+
+
+## Définition 2
+
+Le principe de *répétabilité* ou *reproductibilité* : 
+
+  - Production de connaissance validé par la communauté "scientifique" ;
+  - Reproduite par d'autres chercheurs.
+
+## L'origine de l'analyse reproductible
+
+  Transparence
+
+## _Reproductibility Research?_ Recherche reproductible ?
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/reproduc_img.jpg" width="1280" height="450" /> </center> 
+
+# Mise en place
+
+## Démarche 
+
+ - Avoir un plan pour organiser, stocker et rendre les données et les codes d'analyse disponibles ; 
+ - Transparence dans la production des résultats ; 
+ - Revenir plustard et facilement réaliser ses analyses.
+
+## Resultats : Figures ou Tableaux
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/mixed_forest_compositions_fta.png" width="1280" height="572" /> </center> 
+
+## Resultats (Figure/Tableau) + Données
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/data_view.png" width="1280" height="572" /> </center> 
+
+## Résultats + Données + Meta Données
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/meta_data_view.png" width="1280" height="572" /> </center> 
+
+##  Resultats + Données + Meta Données
+
+```{r }
+# Jeu de données
+
+data_ass<- readRDS(file = "../data/forest_ass.rds")
+
+library(dplyr)
+
+glimpse(data_ass)
+```
+
+## Résultats + Données + Code
+
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/code_view.png" width="1280" height="572" /> </center> 
+
+##  Resultats + Données + Meta Data + Code
+
+```{r }
+# Visuliser le graphique
+
+library(dplyr)
+library(ggplot2)
+library(forcats)
+library(alluvial)
+library(ggalluvial)
+
+top_numb_spec <- data_ass %>% 
+  count(no_species) %>% 
+  pull(no_species)
+
+top_association <- data_ass %>% 
+  filter(no_species %in% top_numb_spec) %>% 
+  count(association) %>% 
+  pull(association)
+
+forest <- data_ass %>% 
+  filter(no_species %in% top_numb_spec & association %in% top_association) %>% 
+  count(name_forest, association, no_species) %>% 
+  mutate(name_forest = fct_relevel(as.factor(name_forest), c("Watanga", "Crypton")))
+
+alluvial(forest %>% select(-n),
+         freq=forest$n, border=NA, alpha = 0.5,
+         col=case_when(forest$name_forest == "Watanga" ~ "red",
+                       forest$name_forest == "Crypton" ~ "blue",
+                       TRUE ~ "orange"),
+         cex=0.75,
+         axis_labels = c("Forest", "Association", "Number_species"))  
+
+
+```
+
+# Strucuture d'un projet R (.Rproj)
+
+## Le problème
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagebad.png" width="1000"/> </center> 
+
+## le bon projet R
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagegood2.png" width="1000"/> </center> 
+
+## Gestion d'un Dossier Projet R à partir de RStudio
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/projtmanagegood3.png" width="1000"/> </center> 
+
+## Fait par saven85
+
+<center> <img src="/Volumes/USER-1/Projets/rworkshop/pictures/myfolder.png" width="1000"/> </center> 
+
+
+## Constituer un dossier projet manuellement
+
+
+## Constituer un dossier projet automatiquement
+
+```{r echo=T, results='hide'}
+# install.packages("prodigenr")
+
+library(prodigenr)
+
+# https://cran.r-project.org/web/packages/prodigenr/vignettes/prodigenr.html
+
+```
+
+# Le Markdown Rmarkdown
+
+## Petite idée ...
+
+*Markdown* est un langage de balisage léger créé en 2004 par _John Gruber_ avec l'aide d' _Aaron Swartz_. Il a été créé dans le but d'offrir une syntaxe facile à lire et à écrire.
+
+*R Markdown* offre une syntaxe simplifiée pour mettre en forme des documents contenant à la fois du texte, des instructions R et le résultat fourni par R lors de l’évaluation de ces instructions. En ce sens, il s’agit d’un outil permettant de produire des rapports d’analyse détaillés et commentés, plutôt que de simples scripts R incluant quelques commentaires.
+
+
+## Exemple de Rapport
+
+- Une étude sur la mise en place d'une clé dichotomique à partie d'un jeu de données d'inventaires floristique réalisée dans la forêt classée de la Téné (Oumé, Côte d'Ivoire).
+
+- Recherche Reproductible avec R : Introduction Générale
+
+## Jeu de données de HepatitisCdata.csv
+
+```{r}
+HepatitisCdata <- read.csv("../data/HepatitisCdata.csv")
+
+library(dplyr)
+glimpse(HepatitisCdata)
+ # View(HepatitisCdata)  # ne pas chunk
+unique(HepatitisCdata$Category)
+
+```
+
+La moyenne d'âge varie t-elle d'une catégorie à une autre ?
+
+## Jeu de données de HepatitisCdata.csv
+
+### Test de normalité variable ALB
+
+
+```{r}
+shapiro.test(HepatitisCdata$ALB)
+```
+
+### Test de comparaison
+
+Nous pouvons à présent procéder à la comparaison des groupes (FvsH).
+
+```{r}
+# https://statsandr.com/blog/wilcoxon-test-in-r-how-to-compare-2-groups-under-the-non-normality-assumption/
+wilcox_res <- wilcox.test(HepatitisCdata$ALB ~ HepatitisCdata$Sex) 
+wilcox_pval<- wilcox_res$p.value
+```
+
+Nous sommes partie de l'hypothèse H0 que la valeur en albumine est la même dans les deux catégorie (M, F). Puisque `r wilcox_pval` <0.05, nous rejetons l'hypothèse H0 pour accepter l'hypothèse alternative. Conclusion, la valeur médiane d'albumine de l'homme est significativement différente à celle de la femme.
+
+
+## Jeu de données de HepatitisCdata.csv : Médianes (ALB)
+
+```{r}
+library(dplyr)
+group_res <-group_by(HepatitisCdata, Sex) %>%
+            summarise(count = n(),
+            median = median(ALB, na.rm = TRUE),
+            mean = mean(ALB, na.rm = TRUE))
+group_res           
+```
+
+
+
+```{r}
+HepatitisCdata_f<-filter(HepatitisCdata, Sex == "f")
+mean_alb_f<-mean(HepatitisCdata_f$ALB)
+```
+
+La valeur moyenne chez la femme est de `r mean_alb_f` et chez l'homme ?
+
+Que dire de la variable Categorie et le taux d'ALB
+
+##  Comparaison de médianes (ALB)
+
+```{r}
+kruskal.test(ALB~ Category, data = HepatitisCdata)
+  # https://www.bmj.com/content/348/bmj.g2907
+  # https://statsandr.com/blog/student-s-t-test-in-r-and-by-hand-how-to-compare-two-groups-under-different-scenarios/
+
+```
+
+Nous pouvons donc procéder à une post-hoc de 1001 manières après avoir déterminer la médiane dans de chaque catégorie.
+
+## Visulaisation des gorupes (ALB)
+
+```{r}
+# Retirer la valeur na
+HepatitisCdata<-HepatitisCdata %>%
+            filter(ALB != "NA")
+
+# Observer les medianne par groupe
+
+group_cat_sum <-group_by(HepatitisCdata, Category) %>%
+            summarise(count = n(),
+            median = median(ALB, na.rm = TRUE),
+            mean = mean(ALB, na.rm = TRUE))
+group_cat_sum
+```
+
+## Test post-hoc (ALB)
+
+```{r}
+HepatitisCdata$Category= factor(HepatitisCdata$Category, 
+                      levels=c("1=Hepatitis", "0=Blood Donor", "2=Fibrosis", "3=Cirrhosis", "0s=suspect Blood Donor"))
+
+levels(HepatitisCdata$Category)
+
+```
+
+## Réalisation du test de Dunn
+
+```{r}
+library(FSA)
+
+DT = dunnTest(ALB ~ Category,
+              data=HepatitisCdata,
+              method="bh")
+```
+
+
+## Compact letter display
+
+Affecter des lettres aux groupes
+
+```{r}
+
+PT = DT$res
+PT
+```
+
+```{r}
+library(rcompanion)
+
+cldList(P.adj ~ Comparison,
+        data = PT,
+        threshold = 0.05)
+```
+
+## Jeu de données de HepatitisCdata.csv : test post-hoc (ALB) : Autres méthodes
+
+```{r echo=FALSE}
+
+pwilcx <- pairwise.wilcox.test(HepatitisCdata$ALB, g = HepatitisCdata$Category, correct=TRUE)
+
+
+library(FSA)
+duntT <- dunnTest(ALB~Category,data=HepatitisCdata)
+
+
+library(pgirmess)
+kkwmc <- kruskalmc(HepatitisCdata$ALB ~ HepatitisCdata$Category)
+```
+
+## Tester une autre variable (BIL)
+
+
+```{r}
+# https://statsandr.com/blog/wilcoxon-test-in-r-how-to-compare-2-groups-under-the-non-normality-assumption/
+wilcox_res_bil <- wilcox.test(HepatitisCdata$BIL ~ HepatitisCdata$Sex) 
+wilcox_bil_pval<- wilcox_res$p.value
+```
+
+Nous sommes partie de l'hypothèse H0 que la valeur en albumine est la même dans les deux catégorie (M, F). Puisque `r wilcox_bil_pval` < 0.05, nous rejetons l'hypothèse H0 pour accepter l'hypothèse alternative. Conclusion, la valeur médiane d'albumine de l'homme est significativement différente à celle de la femme.
+
+
+
+## Jeu de données Chernobyl NPP Accident
+
+Description d'un jeu de données d'une analyse d'échantillon de sol prélévé à Chernobyle
+
+```{r}
+Chernobyl_npp_soil  <- read.csv("../data/Soil_radionuclide_data.csv")
+```
+
+## Jeu de données Chernobyl NPP Accident : Explorer le jeu de données
+
+```{r}
+library(dplyr)
+glimpse(Chernobyl_npp_soil)
+```
+
+## Comparaison des paramètres selon le site
+
+### Préparation des données 
+
+```{r}
+# Retirer les valeur n/a
+Chernobyl_npp_soil<-Chernobyl_npp_soil %>%
+            filter(Dose_rate_microSv_per_hour_measurement_1 != "n/a")
+
+# Convertir en valeur numérique
+Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1<-as.numeric(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1) 
+```
+
+### Tests statistiques 
+
+```{r}
+# Réaliser le test de normalité shapiro
+shapiro.test(Chernobyl_npp_soil$Dose_rate_microSv_per_hour_measurement_1)
+
+
+# Test de comparaison non paramétrique pour plus de deux groupes
+
+kruskal.test(Dose_rate_microSv_per_hour_measurement_1 ~ Site, data = Chernobyl_npp_soil)
+  # https://www.bmj.com/content/348/bmj.g2907
+  # https://statsandr.com/blog/student-s-t-test-in-r-and-by-hand-how-to-compare-two-groups-under-different-scenarios/
+
+```
+
+Puisque la p-value est plus petite que la valeur seuil de 0.05, on peut en conclure qu'il y a une différence significative entre les groupes, les sites.
+
+
+
+# Version Control
+
+## Git avec RStudio
+
+
+## Git avec Github Desktop
+
+# Analyse en ligne : RStudio Cloud
+
+[RStudio Cloud](https://rstudio.cloud)
+
+# Stockage les données
+
+[Kaggle](http://Kaggle.com)
+
+[zenedo](https://zenodo.org)
+
+[Havarddataverse](https://dataverse.harvard.edu)
+
+# Merci !

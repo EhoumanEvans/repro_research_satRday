@@ -13,12 +13,11 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Charger les données
+Charger les données et visualiser
 
 ```{r }
 data_ass<- readRDS(file = "../data/forest_ass.rds")
 View(data_ass)
-
 
 ```
 
@@ -30,7 +29,7 @@ Visualiser le graphique
 
 data_ass<- readRDS(file = "../data/forest_ass.rds")
 
-# Visuliser le graphique
+# Visualiser le graphique
 
 library(dplyr)
 library(ggplot2)

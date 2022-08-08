@@ -7,12 +7,12 @@ Ceci est le projet Github de la présentation que nous avons donné lors du prem
 L'activité a été promue par le *R Consortium*
 
 Cette activité a pu se réaliser grace à la participation de :
-* {[Samantha Toet](https://twitter.com/samantha_toet?lang=en)}
-* {[Mouna Belaid](https://twitter.com/mounaa_belaid?lang=en)}
-* {[Aminata Ndiaye](https://twitter.com/aminata_fadl)}
-* {[Marie Ruth Dago](https://www.researchgate.net/profile/Marie-Dago)}
-* {[Bryan Tegomoh](https://www.linkedin.com/in/bryan-tegomoh-md-mph-b0449b75/)}
-* {[Kevin Patrick O'Brien](https://twitter.com/dragonflystats?lang=en)}
+* [Samantha Toet](https://twitter.com/samantha_toet?lang=en)
+* [Mouna Belaid](https://twitter.com/mounaa_belaid?lang=en)
+* [Aminata Ndiaye](https://twitter.com/aminata_fadl)}
+* [Marie Ruth Dago](https://www.researchgate.net/profile/Marie-Dago)
+* [Bryan Tegomoh](https://www.linkedin.com/in/bryan-tegomoh-md-mph-b0449b75/)
+* [Kevin Patrick O'Brien](https://twitter.com/dragonflystats?lang=en)
 
 * A tous les participants.
 

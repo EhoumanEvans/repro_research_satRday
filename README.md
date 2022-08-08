@@ -1,4 +1,4 @@
-# Recherche Reproductible avec `R` [<img src="https://satrdays.org/blog/mainimage-francophone.png" align="right" width="150">](https://satrdays.org/blog/2022/07/20/2022-francophone/#)
+# Recherche Reproductible avec `R` [<img src="https://satrdays.org/blog/mainimage-francophone.png" align="right" width="250">](https://satrdays.org/blog/2022/07/20/2022-francophone/#)
 
 # repro_research_aru
 

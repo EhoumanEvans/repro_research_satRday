@@ -3,11 +3,11 @@ title: "Recherche Reproductible avec R"
 author: "Ehouman Evans <br> Abidjan RUsers, Yamoussoukro"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
-  word_document: default
-  toc: yes
   html_document:
     df_print: paged
     code_folding: "hide"
+  toc: yes
+  word_document: default
 subtitle: 'SatRday Francophones'
 pdf_document:
   toc: yes
@@ -90,7 +90,7 @@ Le principe de *répétabilité* ou *reproductibilité* :
 
 ## _Reproductibility Research?_ Recherche reproductible ?
 
-<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/reproduc_img.jpg" width="1280" height="450" /> </center> 
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satRday/image/reproduc_img.jpg" width="1280" height="450" /> </center> 
 
 # Mise en place
 
@@ -102,15 +102,15 @@ Le principe de *répétabilité* ou *reproductibilité* :
 
 ## Resultats : Figures ou Tableaux
 
-<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/mixed_forest_compositions_fta.png" width="1280" height="572" /> </center> 
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satRday/image/mixed_forest_compositions_fta.png" width="1280" height="572" /> </center> 
 
 ## Resultats (Figure/Tableau) + Données
 
-<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/data_view.png" width="1280" height="572" /> </center> 
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satRday/image/data_view.png" width="1280" height="572" /> </center> 
 
 ## Résultats + Données + Meta Données
 
-<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satrdy/image/meta_data_view.png" width="1280" height="572" /> </center> 
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satRday/image/meta_data_view.png" width="1280" height="572" /> </center> 
 
 ##  Resultats + Données + Meta Données
 
@@ -126,7 +126,7 @@ glimpse(data_ass)
 
 ## Résultats + Données + Code
 
-<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_aru/image/code_view.png" width="1280" height="572" /> </center> 
+<center> <img src="/Volumes/USER-1/Projets/GitHub/repro_research_satRday/image/code_view.png" width="1280" height="572" /> </center> 
 
 ##  Resultats + Données + Meta Data + Code
 

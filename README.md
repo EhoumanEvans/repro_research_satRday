@@ -6,7 +6,7 @@ Ceci est le projet Github de la présentation que nous avons donné lors du prem
 
 L'activité a été promue par le *R Consortium*
 
-Cette activité a pu se réaliser grace à la participation de :
+Cette activité a pu se réaliser grâce à la participation de :
 * [Samantha Toet](https://twitter.com/samantha_toet?lang=en)
 * [Mouna Belaid](https://twitter.com/mounaa_belaid?lang=en)
 * [Aminata Ndiaye](https://twitter.com/aminata_fadl)
